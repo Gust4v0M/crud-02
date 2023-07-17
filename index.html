@@ -1,0 +1,77 @@
+<form>
+    <input name="campoCriaPost" type="text" placeholder="Digite seu Post" />
+    <button type="submit">Postar</button>
+</form>
+<ul class="listaDePosts">
+
+</ul>
+
+
+
+
+<script>
+    console.log('Olá pessoas!')
+    console.log('#ContruindoCRUDS - Nivel 2')
+//"MODELO"
+    const miniRedeSocial = {
+        usuarios: [
+            {
+                usarname: "GustavoMorgado",
+            }
+        ],
+        posts: [
+            {
+                id: 1,
+                owner: "GustavoMorgado",
+                content: "Meu primeiro tweet"
+            }
+        ],
+        criaPost(dados, htmlOnly = false) {
+
+            if(!htmlOnly){
+                miniRedeSocial.posts.push({
+                id: miniRedeSocial.posts.length + 1,
+                owner: dados.owner,
+                content: dados.content
+            });
+            }
+            //Cria posts na memoria (array/objeto)
+           
+            // Cria post no HTML
+            const $listaDePost = document.querySelector('.listaDePosts')
+            $listaDePost.insertAdjacentHTML('afterbegin', `<li>${dados.content}<li/>`)
+
+
+
+        }
+
+    };
+    // [Código de Front End: Web)
+    const $meuForm = document.querySelector('form');
+    console.log($meuForm);
+
+    //CRUD: [READ]
+    miniRedeSocial.posts.forEach(({owner, content}) => {
+    miniRedeSocial.criaPost({ owner: owner, content: content}, true )
+
+        
+    });
+
+
+    // CRUD:[CREATE]
+    $meuForm.addEventListener('submit', function criaPostController(infosDoEvento) {
+        infosDoEvento.preventDefault();
+        console.log('Cria post novo')
+
+        const $campoCriaPost = document.querySelector('input[name="campoCriaPost"]');
+        miniRedeSocial.criaPost({ owner: "GustavoMorgado", content: $campoCriaPost.value })
+        console.log(miniRedeSocial.posts)
+
+        $campoCriaPost.value = '';
+        //  alert($campoCriaPost.value);
+
+        console.log();
+
+    })
+
+</script>
